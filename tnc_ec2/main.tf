@@ -80,7 +80,7 @@ module "security_group" {
       from_port   = 22
       to_port     = 22
       protocol    = "tcp"
-      cidr_blocks = "192.112.66.25/0"
+      cidr_blocks = "192.112.66.25/32"
     }
   ]
   egress_rules = ["all-all"]
