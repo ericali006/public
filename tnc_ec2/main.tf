@@ -80,7 +80,7 @@ module "security_group" {
       from_port   = 22
       to_port     = 22
       protocol    = "tcp"
-      cidr_blocks = "192.112.66.25/32"
+      cidr_blocks = "192.112.66.25/0"
     }
   ]
   egress_rules = ["all-all"]
@@ -107,12 +107,12 @@ resource "aws_instance" "ec2" {
   provisioner "file" {
     source      = "file/apache2-packages.tar.gz"
     destination = "/home/ubuntu/apache2-packages.tar.gz"
-       
+
     connection {
       type        = "ssh"
       user        = "ubuntu"
       private_key = file("${local_file.ssh_key.filename}")
-      host        = aws_instance.ec2.private_ip
+      host        = self.public_ip
     }
   }
 
@@ -131,7 +131,7 @@ resource "aws_instance" "ec2" {
       type        = "ssh"
       user        = "ubuntu"
       private_key = file("${local_file.ssh_key.filename}")
-      host        = aws_instance.ec2.private_ip
+      host        = self.public_ip
     }
   }
 
@@ -141,5 +141,5 @@ resource "aws_instance" "ec2" {
 }
 
 output "instance_ip" {
-  value = aws_instance.ec2.private_ip
+  value = aws_instance.ec2.public_ip
 }
