@@ -52,7 +52,7 @@ module "vpc" {
   public_subnets = ["10.20.0.0/28"]
   private_subnets = ["10.20.0.16/28"]
   
-  create_igw = false
+  create_igw = true
 
   tags = {
     Name = "tnc_vpc"
@@ -102,7 +102,7 @@ resource "aws_instance" "ec2" {
   availability_zone           = element(module.vpc.azs, 0)
   subnet_id                   = element(module.vpc.public_subnets, 0)
   vpc_security_group_ids      = [module.security_group.security_group_id]
-  associate_public_ip_address = false
+  associate_public_ip_address = true
 
   provisioner "file" {
     source      = "file/apache2-packages.tar.gz"
